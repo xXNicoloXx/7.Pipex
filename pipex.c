@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/14 16:22:27 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:42:41 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,30 @@ void	ft_close_fd(t_pip *s, int *fdpip1)
 	close(s->fdout);
 }
 
+int	ft_av_is_cmd(t_pip *s, int nbcmd)
+{	
+	char	**avcmd;
+	int		i;
+
+	avcmd = ft_split(s->av[nbcmd], ' ');
+	execve(avcmd[0], avcmd, s->env);
+	i = -1;
+	perror(avcmd[0]);
+	while(avcmd[++i])
+		free(avcmd[i]);
+	free(avcmd);
+	return (0);
+}
+
 int	ft_exe_cmd_pt2(t_pip *s, char **cmd)
 {
 	int		i;
 	char	*path;
 	char	*path2;
 
-	fprintf(stderr, "coucou = %s\n\n", s->av[3]);
-	if (access(s->av[3], X_OK) == 0)
-		execve(s->av[3], cmd, s->env);
 	i = -1;
+	if (s->path == NULL)
+		return (0);
 	while (s->path[++i])
 	{
 		path = ft_strjoin(s->path[i], "/");
@@ -62,18 +76,24 @@ int	ft_exe_cmd(t_pip *s, int nbcmd)
 	int		i;
 	char	**cmd;
 
-	cmd = ft_split(s->av[nbcmd], ' ');
-	if (cmd == NULL)
-		return (write(2, "\e[32;1mError\n\e[0m", 18), -1);
-	if (ft_exe_cmd_pt2(s, cmd) == -1)
-		return (-1);
-	i = -1;
-	write(2, cmd[0], ft_strlen(cmd[0]));
-	write(2, ": command not found", 19);
-	while (cmd[++i])
-		free(cmd[i]);
-	free(cmd);
-	free(s->path);
+	if (s->path)
+	{
+		cmd = ft_split(s->av[nbcmd], ' ');
+		if (cmd == NULL)
+			return (write(2, "\e[32;1mError\n\e[0m", 18), -1);
+		if (ft_exe_cmd_pt2(s, cmd) == -1)
+			return (-1);
+		i = -1;
+		while (cmd[++i])
+			free(cmd[i]);
+		free(cmd);
+		free(s->path);
+	}
+	if (ft_av_is_cmd(s, nbcmd) == -1)
+	{
+		// write(2, cmd[0], ft_strlen(cmd[0]));
+		// write(2, ": command not found", 19);
+	}
 	return (-1);
 }
 

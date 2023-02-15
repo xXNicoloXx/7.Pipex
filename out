@@ -1,0 +1,16 @@
+libft
+main.c
+Makefile
+out
+outexit
+out.txt
+pipex
+pipex.c
+pipex.d
+pipex.h
+pipex.o
+pipex_pt2.c
+pipex_pt2.d
+pipex_pt2.o
+test
+test.txt

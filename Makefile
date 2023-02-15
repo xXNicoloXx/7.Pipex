@@ -3,7 +3,8 @@ FILES =	pipex.c pipex_pt2.c
 OBJS = ${FILES:.c=.o}
 
 NAME = pipex
-
+# wait pour entre 1er et 2 eme commande
+# droit fichier in out
 CC = cc
 
 INCLUDE = -I ./ -I ./libft 
@@ -11,6 +12,9 @@ LIB = -L ./libft -lft
 
 CFLAGS = -Wall -Wextra -Werror
 
+
+.c.o:
+		${CC} ${CFLAGS} ${INC} -g -MMD -c $< -o ${<:.c=.o}
 
 ${NAME}: 	${OBJS}
 		+${MAKE} -C ./libft/
