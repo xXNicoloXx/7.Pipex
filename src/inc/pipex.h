@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:37:23 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/13 20:09:05 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:50:24 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define PIPEX_H
 
 # include <stdio.h>
-# include "./libft/libft.h"
-# include<sys/wait.h>
+# include "../../libft/libft.h"
+# include <sys/wait.h>
 
 typedef struct s_pip
 {
