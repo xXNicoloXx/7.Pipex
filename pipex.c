@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/15 15:42:41 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:02:31 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	ft_exe_cmd_pt2(t_pip *s, char **cmd)
 		if (path2 == NULL)
 			return (write(2, "\e[31;1mError ft_strjoin 2\n\e[0m", 31), -1);
 		if (access(path2, X_OK) == 0)
+		{
+			fprintf(stderr, "ici = %s\n", cmd[0]);
 			execve(path2, cmd, s->env);
+		}
 		free(path2);
 	}
 	return (0);
@@ -119,7 +122,8 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	waitpid(s.id2, &error, 0);
 	ft_close_fd(&s, s.fdpip1);
-	ft_free(&s);
+	if (s.path)
+		ft_free(&s);
 	close(open(av[ac - 1], O_CREAT | O_WRONLY, 0777));
 	if (error != 0)
 		return (1);

@@ -1,10 +1,9 @@
 FILES =	pipex.c pipex_pt2.c
 
-OBJS = ${FILES:.c=.o}
+# OBJS = ${FILES:.c=.o}
 
 NAME = pipex
 # wait pour entre 1er et 2 eme commande
-# droit fichier in out
 CC = cc
 
 INCLUDE = -I ./ -I ./libft 
@@ -13,8 +12,14 @@ LIB = -L ./libft -lft
 CFLAGS = -Wall -Wextra -Werror
 
 
-.c.o:
-		${CC} ${CFLAGS} ${INC} -g -MMD -c $< -o ${<:.c=.o}
+OBJS_PATH = objs
+OBJS = ${patsubst %.c, ${OBJS_PATH}/%.o, ${SRCS}}
+
+${OBJS}: ${OBJS_PATH}/%.o: %.c *.h Makefile
+		mkdir -p ${OBJS_PATH}
+		${CC} ${CFLAGS} -g -c $< -o $@ -I ${INCLUDE}
+
+
 
 ${NAME}: 	${OBJS}
 		+${MAKE} -C ./libft/
