@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 14:14:53 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:51:24 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 			s->path = ft_split(&s->env[s->i][5], ':');
 	}
 	s->fdin = open(av[1], O_CREAT | O_RDONLY, 0644);
+	s->fdout = -1;
 	if (s->fdin == -1)
 		perror(av[1]);
-	s->fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	if (s->fdout == -1)
-		perror(av[2]);
 	pipe(s->fdpip1);
 	return (0);
 }
@@ -46,7 +44,6 @@ int	ft_1st_cmd(t_pip *s)
 		if (ft_exe_cmd(s, 2) == -1)
 			exit(1);
 	}
-	close(s->fdout);
 	return (0);
 }
 
