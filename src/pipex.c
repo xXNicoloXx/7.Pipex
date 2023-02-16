@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 13:43:59 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:17:51 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	ft_close_fd(t_pip *s, int *fdpip1)
 {
 	close(fdpip1[0]);
 	close(fdpip1[1]);
-	close(s->fdin);
-	close(s->fdout);
+	if (s->fdin != -1)
+		close(s->fdin);
+	if (s->fdout != -1)
+		close(s->fdout);
 }
 
 int	ft_av_is_cmd(t_pip *s, int nbcmd)
@@ -99,7 +101,7 @@ int	main(int ac, char **av, char **envp)
 		waitpid(s.id1, &error, 0);
 	s.fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (s.fdout == -1)
-		return (write(1, "\e[31;1mError File Out\n\e[0m", 27));
+		perror(av[2]);
 	if (ft_2nd_cmd(&s) != 0)
 		return (1);
 	waitpid(s.id2, &error, 0);

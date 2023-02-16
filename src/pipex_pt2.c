@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 13:44:35 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:14:53 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,25 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 	s->path = NULL;
 	if (ac != 5)
 		return (write(1, "\e[31;1mError Arguments\n\e[0m", 28), -1);
-	s->fdin = open(av[1], O_CREAT | O_RDONLY, 0644);
-	if (s->fdin == -1)
-		return (write(1, "\e[31;1mError File In\n\e[0m", 26), -1);
-	s->fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	if (s->fdout == -1)
-		return (write(1, "\e[31;1mError File Out\n\e[0m", 27), close(s->fdin), -1);
-	pipe(s->fdpip1);
 	while (s->env[++s->i])
 	{
 		if (ft_strncmp(s->env[s->i], "PATH", 4) == 0)
-		{
 			s->path = ft_split(&s->env[s->i][5], ':');
-			return (0);
-		}
 	}
-	s->path = NULL;
+	s->fdin = open(av[1], O_CREAT | O_RDONLY, 0644);
+	if (s->fdin == -1)
+		perror(av[1]);
+	s->fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	if (s->fdout == -1)
+		perror(av[2]);
+	pipe(s->fdpip1);
 	return (0);
 }
 
 int	ft_1st_cmd(t_pip *s)
 {
 	s->id1 = fork();
-	if (s->id1 == 0)
+	if (s->id1 == 0 && s->fdin != -1)
 	{
 		dup2(s->fdin, 0);
 		dup2(s->fdpip1[1], 1);
@@ -57,7 +53,7 @@ int	ft_1st_cmd(t_pip *s)
 int	ft_2nd_cmd(t_pip *s)
 {
 	s->id2 = fork();
-	if (s->id2 == 0)
+	if (s->id2 == 0 && s->fdout != -1)
 	{
 		dup2(s->fdpip1[0], 0);
 		dup2(s->fdout, 1);
