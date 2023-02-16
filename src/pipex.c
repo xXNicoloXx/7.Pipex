@@ -6,21 +6,11 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/15 19:02:31 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 11:55:27 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	ft_free(t_pip *s)
-{
-	int	i;
-
-	i = -1;
-	while (s->path[++i])
-		free(s->path[i]);
-	free(s->path);
-}
 
 void	ft_close_fd(t_pip *s, int *fdpip1)
 {
@@ -39,7 +29,7 @@ int	ft_av_is_cmd(t_pip *s, int nbcmd)
 	execve(avcmd[0], avcmd, s->env);
 	i = -1;
 	perror(avcmd[0]);
-	while(avcmd[++i])
+	while (avcmd[++i])
 		free(avcmd[i]);
 	free(avcmd);
 	return (0);
@@ -65,10 +55,7 @@ int	ft_exe_cmd_pt2(t_pip *s, char **cmd)
 		if (path2 == NULL)
 			return (write(2, "\e[31;1mError ft_strjoin 2\n\e[0m", 31), -1);
 		if (access(path2, X_OK) == 0)
-		{
-			fprintf(stderr, "ici = %s\n", cmd[0]);
 			execve(path2, cmd, s->env);
-		}
 		free(path2);
 	}
 	return (0);
@@ -92,11 +79,7 @@ int	ft_exe_cmd(t_pip *s, int nbcmd)
 		free(cmd);
 		free(s->path);
 	}
-	if (ft_av_is_cmd(s, nbcmd) == -1)
-	{
-		// write(2, cmd[0], ft_strlen(cmd[0]));
-		// write(2, ": command not found", 19);
-	}
+	ft_av_is_cmd(s, nbcmd);
 	return (-1);
 }
 
@@ -109,7 +92,6 @@ int	main(int ac, char **av, char **envp)
 	s.env = envp;
 	if (ft_error_int(&s, ac, av) == -1)
 		return (1);
-	pipe(s.fdpip1);
 	if (ft_1st_cmd(&s) != 0)
 		return (1);
 	close(s.fdpip1[1]);

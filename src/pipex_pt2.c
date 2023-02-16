@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/15 18:15:09 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 11:56:24 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,17 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 		return (write(1, "\e[31;1mError File In\n\e[0m", 26), -1);
 	s->fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (s->fdout == -1)
-		return (write(1, "\e[31;1mError File Out\n\e[0m", 27), close(s->fdin) -1);
+		return (write(1, "\e[31;1mError File Out\n\e[0m", 27), close(s->fdin), -1);
 	while (s->env[++s->i])
 	{
-		// fprintf(stderr, "s->env[%d] = |%s|\n", s->i ,s->env[s->i]);
 		if (ft_strncmp(s->env[s->i], "PATH", 4) == 0)
 		{
 			s->path = ft_split(&s->env[s->i][5], ':');
 			return (0);
 		}
 	}
+	pipe(s->fdpip1);
 	s->path = NULL;
-	// fprintf(stderr, "s->path = %s\n\n\n", s->path[0]);
 	return (0);
 }
 
@@ -69,3 +68,12 @@ int	ft_2nd_cmd(t_pip *s)
 	return (0);
 }
 
+void	ft_free(t_pip *s)
+{
+	int	i;
+
+	i = -1;
+	while (s->path[++i])
+		free(s->path[i]);
+	free(s->path);
+}
