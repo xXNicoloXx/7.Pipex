@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 13:31:06 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:44:35 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 	s->fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (s->fdout == -1)
 		return (write(1, "\e[31;1mError File Out\n\e[0m", 27), close(s->fdin), -1);
+	pipe(s->fdpip1);
 	while (s->env[++s->i])
 	{
 		if (ft_strncmp(s->env[s->i], "PATH", 4) == 0)

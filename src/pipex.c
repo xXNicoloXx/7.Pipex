@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 13:31:20 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:43:59 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	main(int ac, char **av, char **envp)
 
 	error = 0;
 	s.env = envp;
-	pipe(s.fdpip1);
 	if (ft_error_int(&s, ac, av) == -1)
 		return (1);
 	if (ft_1st_cmd(&s) != 0)
