@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 14:17:51 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:24:57 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,21 @@ int	ft_exe_cmd(t_pip *s, int nbcmd)
 	int		i;
 	char	**cmd;
 
-	if (s->path)
+	i = -1;
+	if (ft_strncmp(s->av[nbcmd], "", 1) == 0)
+	{
+		while (s->path[++i])
+			free(s->path[i]);
+		free(s->path);
+		return (write(2, "  :Command not found\n", 22), -1);
+	}
+	else if (s->path)
 	{
 		cmd = ft_split(s->av[nbcmd], ' ');
 		if (cmd == NULL)
 			return (write(2, "\e[32;1mError\n\e[0m", 18), -1);
 		if (ft_exe_cmd_pt2(s, cmd) == -1)
 			return (-1);
-		i = -1;
 		while (cmd[++i])
 			free(cmd[i]);
 		free(cmd);
@@ -101,7 +108,7 @@ int	main(int ac, char **av, char **envp)
 		waitpid(s.id1, &error, 0);
 	s.fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (s.fdout == -1)
-		perror(av[2]);
+		perror(av[4]);
 	if (ft_2nd_cmd(&s) != 0)
 		return (1);
 	waitpid(s.id2, &error, 0);

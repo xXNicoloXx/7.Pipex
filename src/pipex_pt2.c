@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 14:51:24 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:58:57 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 
 int	ft_1st_cmd(t_pip *s)
 {
+	int i;
+
+	i = -1;
 	s->id1 = fork();
 	if (s->id1 == 0 && s->fdin != -1)
 	{
@@ -44,11 +47,22 @@ int	ft_1st_cmd(t_pip *s)
 		if (ft_exe_cmd(s, 2) == -1)
 			exit(1);
 	}
+	if (s->id1 == 0)
+	{
+		while (s->path[++i])
+			free(s->path[i]);
+		free(s->path);
+		ft_close_fd(s, s->fdpip1);
+		exit(1);
+	}
 	return (0);
 }
 
 int	ft_2nd_cmd(t_pip *s)
 {
+	int	i;
+
+	i = -1;
 	s->id2 = fork();
 	if (s->id2 == 0 && s->fdout != -1)
 	{
@@ -57,6 +71,14 @@ int	ft_2nd_cmd(t_pip *s)
 		ft_close_fd(s, s->fdpip1);
 		if (ft_exe_cmd(s, 3) == -1)
 			exit(1);
+	}
+	if (s->id2 == 0)
+	{
+		while (s->path[++i])
+			free(s->path[i]);
+		free(s->path);
+		ft_close_fd(s, s->fdpip1);
+		exit(1);
 	}
 	return (0);
 }
