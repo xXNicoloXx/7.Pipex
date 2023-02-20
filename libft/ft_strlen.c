@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:27:41 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/13 14:15:31 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:32:06 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (!(str[i] == '\0'))
 	{
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/20 17:07:22 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:42:55 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,17 @@ int	ft_av_is_cmd(t_pip *s, int nbcmd)
 	int		i;
 
 	avcmd = ft_split(s->av[nbcmd], ' ');
-	execve(avcmd[0], avcmd, s->env);
+	if (avcmd[0] != NULL)
+	{
+		execve(avcmd[0], avcmd, s->env);
+		perror(avcmd[0]);
+	}
+	else
+	{
+		write(2, avcmd[0], ft_strlen(avcmd[0]));
+		write(2, ": command not found\n", 20);
+	}
 	i = -1;
-	perror(avcmd[0]);
 	while (avcmd[++i])
 		free(avcmd[i]);
 	free(avcmd);

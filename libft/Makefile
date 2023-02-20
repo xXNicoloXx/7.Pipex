@@ -27,7 +27,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -I ./
 
 .c.o:
-		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+		${CC} -g ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${LIB}:	${OBJS}
 		ar -rsc ${LIB} ${OBJS}
