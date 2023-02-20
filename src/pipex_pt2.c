@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 14:58:57 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:25:42 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 		if (ft_strncmp(s->env[s->i], "PATH", 4) == 0)
 			s->path = ft_split(&s->env[s->i][5], ':');
 	}
-	s->fdin = open(av[1], O_CREAT | O_RDONLY, 0644);
+	s->fdin = open(av[1], O_RDONLY);
 	s->fdout = -1;
 	if (s->fdin == -1)
 		perror(av[1]);
