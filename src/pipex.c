@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 15:24:57 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:07:22 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ int	main(int ac, char **av, char **envp)
 		perror(av[4]);
 	if (ft_2nd_cmd(&s) != 0)
 		return (1);
-	waitpid(s.id2, &error, 0);
 	ft_close_fd(&s, s.fdpip1);
+	waitpid(s.id2, &error, 0);
+	while (wait(NULL) != -1)
+		(void)error;
 	if (s.path)
 		ft_free(&s);
 	close(open(av[ac - 1], O_CREAT | O_WRONLY, 0777));
