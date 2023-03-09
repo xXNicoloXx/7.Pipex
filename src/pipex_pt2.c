@@ -6,17 +6,19 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:57:46 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/20 17:25:42 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:52:50 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_error_int(t_pip *s, int ac, char **av)
+int	ft_error_int(t_pip *s, int ac, char **av, char **ev)
 {
 	s->i = -1;
 	s->ac = ac;
 	s->av = av;
+	s->env = ev;
+	s->error = 0;
 	s->path = NULL;
 	if (ac != 5)
 		return (write(1, "\e[31;1mError Arguments\n\e[0m", 28), -1);
@@ -35,7 +37,7 @@ int	ft_error_int(t_pip *s, int ac, char **av)
 
 int	ft_1st_cmd(t_pip *s)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	s->id1 = fork();

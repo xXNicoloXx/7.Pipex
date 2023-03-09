@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:13:00 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/20 17:32:59 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:45:06 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	// if (!s1)
-	// 	return (s2);
-	// if (!s2)
-	// 	return (s1);
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (str == NULL)
 		return (NULL);

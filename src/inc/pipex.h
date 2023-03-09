@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:37:23 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/16 11:56:10 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:54:26 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 
 typedef struct s_pip
 {
-	int		ac;
 	int		i;
+	int		ac;
 	char	**av;
 	char	**env;
 	char	**path;
+
+	int		error;
 
 	int		fdin;
 	int		fdout;
@@ -35,7 +37,7 @@ typedef struct s_pip
 
 int		ft_2nd_cmd(t_pip *s);
 int		ft_1st_cmd(t_pip *s);
-int		ft_error_int(t_pip *s, int ac, char **av);
+int		ft_error_int(t_pip *s, int ac, char **av, char **ev);
 void	ft_free(t_pip *s);
 
 void	ft_close_fd(t_pip *s, int *fdpip1);

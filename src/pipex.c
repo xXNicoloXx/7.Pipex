@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/02/20 17:42:55 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:54:12 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,27 @@ int	ft_exe_cmd(t_pip *s, int nbcmd)
 int	main(int ac, char **av, char **envp)
 {
 	t_pip	s;
-	int		error;
 
-	error = 0;
-	s.env = envp;
-	if (ft_error_int(&s, ac, av) == -1)
+	if (ft_error_int(&s, ac, av, envp) == -1)
 		return (1);
 	if (ft_1st_cmd(&s) != 0)
 		return (1);
 	close(s.fdpip1[1]);
 	if (strncmp(av[2], "rm", 2) == 0)
-		waitpid(s.id1, &error, 0);
+		waitpid(s.id1, &s.error, 0);
 	s.fdout = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (s.fdout == -1)
 		perror(av[4]);
 	if (ft_2nd_cmd(&s) != 0)
 		return (1);
 	ft_close_fd(&s, s.fdpip1);
-	waitpid(s.id2, &error, 0);
+	waitpid(s.id2, &s.error, 0);
 	while (wait(NULL) != -1)
-		(void)error;
+		(void)s.error;
 	if (s.path)
 		ft_free(&s);
 	close(open(av[ac - 1], O_CREAT | O_WRONLY, 0777));
-	if (error != 0)
+	if (s.error != 0)
 		return (1);
 	return (0);
 }
