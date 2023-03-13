@@ -6,7 +6,7 @@
 /*   By: ngriveau <ngriveau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 20:20:06 by ngriveau          #+#    #+#             */
-/*   Updated: 2023/03/09 16:54:12 by ngriveau         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:12:14 by ngriveau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_exe_cmd(t_pip *s, int nbcmd)
 	i = -1;
 	if (ft_strncmp(s->av[nbcmd], "", 1) == 0)
 	{
-		while (s->path[++i])
+		while (s->path && s->path[++i])
 			free(s->path[i]);
 		free(s->path);
 		return (write(2, "  :Command not found\n", 22), -1);
